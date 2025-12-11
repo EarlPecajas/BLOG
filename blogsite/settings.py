@@ -56,6 +56,7 @@ MIDDLEWARE = [
 CSRF_TRUSTED_ORIGINS = [
     'https://*.idx.google.com',
     'https://*.idx.dev',
+    'https://*.cloudworkstations.dev',
 ]
 
 ROOT_URLCONF = 'blogsite.urls'
