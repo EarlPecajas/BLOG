@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$g8yz(@q8au2%^pha+y9674(%ksp6&+7%5qq0lale%dn&ism=9'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-$g8yz(@q8au2%^pha+y9674(%ksp6&+7%5qq0lale%dn&ism=9')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -49,6 +50,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+# CSRF Settings for IDX
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.idx.google.com',
+    'https://*.idx.dev',
 ]
 
 ROOT_URLCONF = 'blogsite.urls'
