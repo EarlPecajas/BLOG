@@ -2,6 +2,9 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
+from django.core.paginator import Paginator
+from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 from .forms import PostForm
 from .models import Post
@@ -9,7 +12,24 @@ from .models import Post
 
 def post_list(request):
     posts = Post.objects.all()
-    return render(request, 'blog/post_list.html', {'posts': posts})
+    search_query = request.GET.get('search', '')
+    
+    if search_query:
+        posts = posts.filter(
+            Q(title__icontains=search_query) | 
+            Q(content__icontains=search_query)
+        )
+    
+    paginator = Paginator(posts, 6)  # Show 6 posts per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    return render(request, 'blog/post_list.html', {
+        'posts': page_obj,
+        'page_obj': page_obj,
+        'is_paginated': page_obj.has_other_pages(),
+        'search_query': search_query
+    })
 
 
 def post_detail(request, slug):
@@ -17,6 +37,7 @@ def post_detail(request, slug):
     return render(request, 'blog/post_detail.html', {'post': post})
 
 
+@login_required
 @require_http_methods(['GET', 'POST'])
 def post_create(request):
     form = PostForm(request.POST or None)
@@ -26,6 +47,7 @@ def post_create(request):
     return render(request, 'blog/post_form.html', {'form': form, 'mode': 'create'})
 
 
+@login_required
 @require_http_methods(['GET', 'POST'])
 def post_update(request, slug):
     post = get_object_or_404(Post, slug=slug)
@@ -36,6 +58,7 @@ def post_update(request, slug):
     return render(request, 'blog/post_form.html', {'form': form, 'mode': 'edit', 'post': post})
 
 
+@login_required
 @require_http_methods(['GET', 'POST'])
 def post_delete(request, slug):
     post = get_object_or_404(Post, slug=slug)

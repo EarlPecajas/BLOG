@@ -8,13 +8,20 @@
             <h1 class="panel-title">{{ post.title }}</h1>
             <p class="muted">Published {{ post.created_at|date:"M d, Y" }} • Updated {{ post.updated_at|date:"M d, Y" }}</p>
         </div>
+        {% if user.is_authenticated %}
         <div class="card-actions">
             <a class="pill" href="{% url 'post_update' slug=post.slug %}">Edit</a>
             <a class="pill danger" href="{% url 'post_delete' slug=post.slug %}">Delete</a>
         </div>
+        {% endif %}
     </div>
     <div class="prose">
         {{ post.content|linebreaks }}
     </div>
 </article>
+
+<!-- Back to list button -->
+<div style="margin-top: 20px; text-align: center;">
+    <a class="button" href="{% url 'post_list' %}" style="display: inline-block;">← Back to All Posts</a>
+</div>
 {% endblock %}
