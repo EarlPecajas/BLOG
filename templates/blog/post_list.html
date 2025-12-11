@@ -8,7 +8,7 @@
             <h1 class="panel-title">All Posts</h1>
             <p class="muted">Browse, edit, and share your writing.</p>
         </div>
-        {% if user.is_authenticated %}
+        {% if user.is_staff %}
             <a class="button primary" href="{% url 'post_create' %}">Create Post</a>
         {% endif %}
     </div>
@@ -31,8 +31,10 @@
                 <p class="card-body">{{ post.content|truncatechars:160 }}</p>
                 <div class="card-actions">
                     <a class="pill" href="{{ post.get_absolute_url }}">Read</a>
-                    <a class="pill" href="{% url 'post_update' slug=post.slug %}">Edit</a>
-                    <a class="pill danger" href="{% url 'post_delete' slug=post.slug %}">Delete</a>
+                    {% if user.is_staff %}
+                        <a class="pill" href="{% url 'post_update' slug=post.slug %}">Edit</a>
+                        <a class="pill danger" href="{% url 'post_delete' slug=post.slug %}">Delete</a>
+                    {% endif %}
                 </div>
             </article>
         {% empty %}

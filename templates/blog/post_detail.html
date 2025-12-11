@@ -8,7 +8,7 @@
             <h1 class="panel-title">{{ post.title }}</h1>
             <p class="muted">Published {{ post.created_at|date:"M d, Y" }} • Updated {{ post.updated_at|date:"M d, Y" }}</p>
         </div>
-        {% if user.is_authenticated %}
+        {% if user.is_staff %}
         <div class="card-actions">
             <a class="pill" href="{% url 'post_update' slug=post.slug %}">Edit</a>
             <a class="pill danger" href="{% url 'post_delete' slug=post.slug %}">Delete</a>

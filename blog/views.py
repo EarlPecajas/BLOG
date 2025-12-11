@@ -5,6 +5,7 @@ from django.views.decorators.http import require_http_methods
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 
 from .forms import PostForm
 from .models import Post
@@ -37,7 +38,7 @@ def post_detail(request, slug):
     return render(request, 'blog/post_detail.html', {'post': post})
 
 
-@login_required
+@staff_member_required
 @require_http_methods(['GET', 'POST'])
 def post_create(request):
     form = PostForm(request.POST or None)
@@ -47,7 +48,7 @@ def post_create(request):
     return render(request, 'blog/post_form.html', {'form': form, 'mode': 'create'})
 
 
-@login_required
+@staff_member_required
 @require_http_methods(['GET', 'POST'])
 def post_update(request, slug):
     post = get_object_or_404(Post, slug=slug)
@@ -58,7 +59,7 @@ def post_update(request, slug):
     return render(request, 'blog/post_form.html', {'form': form, 'mode': 'edit', 'post': post})
 
 
-@login_required
+@staff_member_required
 @require_http_methods(['GET', 'POST'])
 def post_delete(request, slug):
     post = get_object_or_404(Post, slug=slug)
