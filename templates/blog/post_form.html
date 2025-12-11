@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}{% if mode == 'edit' %}Edit{% else %}Create{% endif %} Post | Earl's Blog{% endblock %}
+{% block content %}
+<section class="panel">
+    <div class="panel-header">
+        <div>
+            <p class="eyebrow">{% if mode == 'edit' %}Update{% else %}Create{% endif %}</p>
+            <h1 class="panel-title">{% if mode == 'edit' %}Edit{% else %}New{% endif %} Post</h1>
+            <p class="muted">Share your thoughts with a clean editor.</p>
+        </div>
+    </div>
+    <form method="post" class="form">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="form-field">
+            {{ form.title.label_tag }}
+            {{ form.title }}
+            {{ form.title.errors }}
+        </div>
+        <div class="form-field">
+            {{ form.content.label_tag }}
+            {{ form.content }}
+            {{ form.content.errors }}
+        </div>
+        <div class="form-actions">
+            <a class="pill" href="{% if mode == 'edit' %}{{ post.get_absolute_url }}{% else %}{% url 'post_list' %}{% endif %}">Cancel</a>
+            <button class="button primary" type="submit">{% if mode == 'edit' %}Save Changes{% else %}Publish{% endif %}</button>
+        </div>
+    </form>
+</section>
+{% endblock %}

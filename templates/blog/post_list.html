@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Posts | Earl's Blog{% endblock %}
+{% block content %}
+<section class="panel">
+    <div class="panel-header">
+        <div>
+            <p class="eyebrow">Latest</p>
+            <h1 class="panel-title">All Posts</h1>
+            <p class="muted">Browse, edit, and share your writing.</p>
+        </div>
+        <a class="button primary" href="{% url 'post_create' %}">Create Post</a>
+    </div>
+    <div class="post-grid">
+        {% for post in posts %}
+            <article class="card">
+                <div class="card-header">
+                    <a class="card-title" href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                    <p class="muted">{{ post.created_at|date:"M d, Y" }}</p>
+                </div>
+                <p class="card-body">{{ post.content|truncatechars:160 }}</p>
+                <div class="card-actions">
+                    <a class="pill" href="{{ post.get_absolute_url }}">Read</a>
+                    <a class="pill" href="{% url 'post_update' slug=post.slug %}">Edit</a>
+                    <a class="pill danger" href="{% url 'post_delete' slug=post.slug %}">Delete</a>
+                </div>
+            </article>
+        {% empty %}
+            <p class="muted">No posts yet. Start by creating your first one.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

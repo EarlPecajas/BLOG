@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Earl's Blog{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="brand">
+            <a href="{% url 'post_list' %}">Earl's Blog</a>
+            <p class="tagline">Thoughtful posts, simple publishing.</p>
+        </div>
+        <nav class="nav">
+            <a class="nav-link" href="{% url 'post_list' %}">Home</a>
+            <a class="nav-link button" href="{% url 'post_create' %}">New Post</a>
+        </nav>
+    </header>
+
+    <main class="content">
+        {% block content %}{% endblock %}
+    </main>
+
+</body>
+</html>

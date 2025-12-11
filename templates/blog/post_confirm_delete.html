@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Delete Post | Earl's Blog{% endblock %}
+{% block content %}
+<section class="panel warning">
+    <div class="panel-header">
+        <div>
+            <p class="eyebrow">Confirm</p>
+            <h1 class="panel-title">Delete "{{ post.title }}"?</h1>
+            <p class="muted">This action cannot be undone.</p>
+        </div>
+    </div>
+    <form method="post" class="form">
+        {% csrf_token %}
+        <div class="form-actions">
+            <a class="pill" href="{{ post.get_absolute_url }}">Cancel</a>
+            <button class="button danger" type="submit">Delete</button>
+        </div>
+    </form>
+</section>
+{% endblock %}
