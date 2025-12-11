@@ -1,10 +1,11 @@
 {pkgs}: {
   channel = "stable-23.11";
   packages = [
-    pkgs.python311
-    pkgs.python311Packages.pip
-    pkgs.python311Packages.django
-    pkgs.python311Packages.djangorestframework
+    (pkgs.python311.withPackages (python-pkgs: with python-pkgs; [
+      django
+      djangorestframework
+      pip
+    ]))
   ];
   idx.extensions = [
     "ms-python.python"
