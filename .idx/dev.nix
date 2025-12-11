@@ -1,11 +1,11 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs ? import (builtins.fetchTarball "https://github.com/NixOS/nixpkgs/archive/nixos-24.05.tar.gz") {} }:
 
 {
-  packages = [
-    pkgs.python312
-    pkgs.python312Packages.pip
-    pkgs.python312Packages.virtualenv
-    pkgs.git
+  packages = with pkgs; [
+    python312
+    python312Packages.pip
+    python312Packages.virtualenv
+    git
   ];
 
   idx = {
